@@ -3,4 +3,6 @@ assets/*
 protected/runtime/*
 !protected/runtime/.gitignore
 protected/data/*.db
-themes/classic/views/
+protected/config/*
+images/items/*
+images/recibos/*
