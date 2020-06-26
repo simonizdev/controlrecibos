@@ -37,7 +37,7 @@
 				?>
 	        </div>
 	    </div>
-	    <div class="col-sm-6">
+	    <div class="col-sm-6" id="div_ver" style="display: none;">
 	    	<div class="form-group">
 	          	<?php echo $form->label($model,'Verificacion'); ?>
 			    <?php $estado_verificacion = Yii::app()->params->estado_verificacion; ?>
@@ -56,6 +56,32 @@
 						),
 					));
 				?>
+	        </div>
+	    </div>
+	</div>
+	<div class="row">
+	    <div class="col-sm-3">
+	    	<div class="form-group">
+	          	<?php echo $form->label($model,'Fecha_Hora_Carga'); ?>
+			    <?php echo $form->textField($model,'Fecha_Hora_Carga', array('class' => 'form-control datepicker', 'autocomplete' => 'off', 'readonly' => true)); ?>
+	        </div>
+	    </div>
+	    <div class="col-sm-3">
+	    	<div class="form-group">
+	          	<?php echo $form->label($model,'Fecha_Hora_Verif'); ?>
+			    <?php echo $form->textField($model,'Fecha_Hora_Verif', array('class' => 'form-control datepicker', 'autocomplete' => 'off', 'readonly' => true)); ?>
+	        </div>
+	    </div>
+	    <div class="col-sm-3">
+	    	<div class="form-group">
+	          	<?php echo $form->label($model,'Fecha_Hora_Aplic'); ?>
+			    <?php echo $form->textField($model,'Fecha_Hora_Aplic', array('class' => 'form-control datepicker', 'autocomplete' => 'off', 'readonly' => true)); ?>
+	        </div>
+	    </div>
+	    <div class="col-sm-3">
+	    	<div class="form-group">
+	          	<?php echo $form->label($model,'Fecha_Hora_Rec_Fis'); ?>
+			    <?php echo $form->textField($model,'Fecha_Hora_Rec_Fis', array('class' => 'form-control datepicker', 'autocomplete' => 'off', 'readonly' => true)); ?>
 	        </div>
 	    </div>
 	</div>
@@ -82,11 +108,26 @@
 
 <script type="text/javascript">
 
+	$('#ControlRecibos_Opc').change(function() {
+		$('#ControlRecibos_Verificacion').val('').trigger('change');
+		var est = $('#ControlRecibos_Opc').val();
+		if(est == 2){
+			$('#div_ver').show();
+		}else{
+			$('#div_ver').hide();
+		}
+
+	});
+
 	function resetfields(){
 		$('#ControlRecibos_Recibo').val('');
 		$('#ControlRecibos_Opc').val('').trigger('change');
-		$('#ControlRecibos_Verificacion').val('').trigger('change');
+		$('#ControlRecibos_Fecha_Hora_Carga').val('');
+		$('#ControlRecibos_Fecha_Hora_Verif').val('');
+		$('#ControlRecibos_Fecha_Hora_Aplic').val('');
+		$('#ControlRecibos_Fecha_Hora_Rec_Fis').val('');
+		//$('#ControlRecibos_Verificacion').val('').trigger('change');
 		$('#yt0').click();
 	}
-	
+
 </script>

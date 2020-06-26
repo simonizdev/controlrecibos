@@ -58,7 +58,7 @@ class ControlRecibos extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('Id_Control, Recibo, Opc, Verificacion', 'safe', 'on'=>'search'),
-			array('Id_Control, Recibo, Opc, Verificacion', 'safe', 'on'=>'search_estados'),
+			array('Id_Control, Recibo, Opc, Verificacion, Fecha_Hora_Carga, Fecha_Hora_Verif, Fecha_Hora_Aplic, Fecha_Hora_Rec_Fis', 'safe', 'on'=>'search_estados'),
 		);
 	}
 
@@ -185,14 +185,14 @@ class ControlRecibos extends CActiveRecord
 			'Url' => 'Url',
 			'Opc' => 'Estado',
 			'Id_Usuario_Carga' => 'Usuario que cargo',
-			'Fecha_Hora_Carga' => 'Fecha y hora de carga',
+			'Fecha_Hora_Carga' => 'Fecha de carga',
 			'Verificacion' => 'Estado de verificación',
 			'Id_Usuario_Verif' => 'Usuario que verificó',
-			'Fecha_Hora_Verif' => 'Fecha y hora de verificación',
+			'Fecha_Hora_Verif' => 'Fecha de verificación',
 			'Id_Usuario_Aplic' => 'Usuario que aplicó',
-			'Fecha_Hora_Aplic' => 'Fecha y hora de aplicación',
+			'Fecha_Hora_Aplic' => 'Fecha de aplicación',
 			'Id_Usuario_Rec_Fis' => 'Usuario que verifica ent. física',
-			'Fecha_Hora_Rec_Fis' => 'Fecha y hora de verificación ent. física',
+			'Fecha_Hora_Rec_Fis' => 'Fecha de verificación ent. física',
 			'Fecha_Banco' => 'Fecha banco',
 			'Fecha_Cheque' => 'Fecha cheque',
 			'Banco_Correcto' => 'Banco correcto',
@@ -220,6 +220,10 @@ class ControlRecibos extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		if($this->Recibo == "" && $this->Opc == "" && $this->Fecha_Hora_Carga == "" && $this->Fecha_Hora_Verif == "" && $this->Fecha_Hora_Aplic == "" && $this->Fecha_Hora_Rec_Fis == ""){
+			$criteria->AddCondition("t.Id_Control = 0"); 
+		}
+
 		$criteria->compare('t.Id_Control',$this->Id_Control);
 		$criteria->compare('t.Recibo',$this->Recibo,true);
 		$criteria->compare('t.Opc',$this->Opc);
@@ -230,6 +234,34 @@ class ControlRecibos extends CActiveRecord
 
 			$criteria->AddCondition("t.Verificacion IN (".$cond.")"); 
 	    }
+
+	    if($this->Fecha_Hora_Carga != ""){
+      		$fai = $this->Fecha_Hora_Carga." 00:00:00";
+      		$faf = $this->Fecha_Hora_Carga." 23:59:59";
+
+      		$criteria->addBetweenCondition('t.Fecha_Hora_Carga', $fai, $faf, 'OR');
+    	}
+
+    	if($this->Fecha_Hora_Verif != ""){
+      		$fai = $this->Fecha_Hora_Verif." 00:00:00";
+      		$faf = $this->Fecha_Hora_Verif." 23:59:59";
+
+      		$criteria->addBetweenCondition('t.Fecha_Hora_Verif', $fai, $faf, 'OR');
+    	}
+
+    	if($this->Fecha_Hora_Aplic != ""){
+      		$fai = $this->Fecha_Hora_Aplic." 00:00:00";
+      		$faf = $this->Fecha_Hora_Aplic." 23:59:59";
+
+      		$criteria->addBetweenCondition('t.Fecha_Hora_Aplic', $fai, $faf, 'OR');
+    	}
+
+    	if($this->Fecha_Hora_Rec_Fis != ""){
+      		$fai = $this->Fecha_Hora_Rec_Fis." 00:00:00";
+      		$faf = $this->Fecha_Hora_Rec_Fis." 23:59:59";
+
+      		$criteria->addBetweenCondition('t.Fecha_Hora_Rec_Fis', $fai, $faf, 'OR');
+    	}
 
 	    $criteria->order = 't.Recibo';
 
