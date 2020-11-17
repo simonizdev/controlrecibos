@@ -32,7 +32,7 @@ class ControlRecibosController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('cargarRecibosverif','cargarRecibosaplic','cargarRecibosentfis','viewrecibo','actestados','revrec','modrec','update'),
+				'actions'=>array('cargarRecibosverif','cargarRecibosaplic','cargarRecibosentfis','viewrecibo','actestados','revrec','modrec','update','rotateimage'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -478,8 +478,34 @@ class ControlRecibosController extends Controller
 
 		if(!empty($modelo_recibo)){
 			clearstatcache();
+			$rn = rand(1,1000);
 			echo '<h3>'.$modelo_recibo->Recibo.'</h3>';
-			echo '<img src="'.Yii::app()->baseUrl."/images/recibos/".$modelo_recibo->Url."?".rand(1,1000).'"   class="img-responsive center-block">';
+			echo '<img src="'.Yii::app()->baseUrl."/images/recibos/".$modelo_recibo->Url."?".$rn.'" class="img-responsive center-block" onclick="rotateimage('.$id.');" style="cursor:pointer">';
+
+
+
+		}
+
+	}
+
+	public function actionRotateImage()
+	{		
+		$id = $_POST['id'];
+		$modelo_recibo = ControlRecibos::model()->findByPk($id);
+
+		if(!empty($modelo_recibo)){
+			$filename = Yii::app()->basePath.'/../images/recibos/'.$modelo_recibo->Url;
+
+			// Load the image
+			$source = imagecreatefromjpeg($filename);
+			// Rotate
+			$rotate = imagerotate($source, -90, 0);
+
+			//and save it on your server...
+			imagejpeg($rotate, Yii::app()->basePath.'/../images/recibos/'.$modelo_recibo->Url);
+			imagedestroy($source);
+			imagedestroy($rotate);
+			echo $id;
 
 		}
 

@@ -105,6 +105,24 @@ $(function() {
 
 });
 
+function rotateimage(id){
+  $('.ajax-loader').fadeIn('fast');
+  var data = {id: id}
+  $.ajax({ 
+    type: "POST", 
+    url: "<?php echo Yii::app()->createUrl('controlrecibos/rotateimage'); ?>",
+    data: data,
+    dataType: 'json',
+    success: function(id){
+      var url = "<?php echo Yii::app()->createUrl('controlRecibos/ViewRecibo&id='); ?>";
+      $('.modal-body').load(url+id,function(){
+        $('#myModal').modal({show:true});
+      }); 
+      $('.ajax-loader').fadeOut('fast');
+    }
+  });
+}
+
 function resetmsn(){
   $('#Reporte_opc_em_').hide();
   $('#Reporte_opc_em_').html('');

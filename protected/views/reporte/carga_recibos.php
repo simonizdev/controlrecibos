@@ -30,7 +30,7 @@ echo $form->hiddenField($model,'recibos', array('class' => 'form-control', 'auto
 $valid = 0;
 $directorio = Yii::app()->params->directorio_recibos;
 
-$arr_exts = array("JPEG","JPG","PNG","jpeg","jpg","png");
+$arr_exts = array("JPEG","JPG","jpeg","jpg");
 
 //si el directorio a recorrer es valido
 if(file_exists($directorio)) {
