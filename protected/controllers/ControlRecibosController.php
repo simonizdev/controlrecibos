@@ -241,7 +241,7 @@ class ControlRecibosController extends Controller
 
 		if($opc == '0'){
 			//$criteria = new CDbCriteria;
-	        $criteria = "SELECT TOP 100 * FROM TH_CONTROL_RECIBOS WHERE Opc = 1";
+	        $criteria = "SELECT TOP 300 * FROM TH_CONTROL_RECIBOS WHERE Opc = 1";
 	        $modelo_recibos=ControlRecibos::model()->findAllBySQL($criteria);
 		}
 		if($opc == '1'){
@@ -369,7 +369,7 @@ class ControlRecibosController extends Controller
 
 		if($filtro == '0'){
 			//$criteria = new CDbCriteria;
-	        $criteria = "SELECT TOP 100 * FROM TH_CONTROL_RECIBOS WHERE Opc = 2 AND Verificacion = 1";
+	        $criteria = "SELECT TOP 300 * FROM TH_CONTROL_RECIBOS WHERE Opc = 2 AND Verificacion = 1";
 	        $modelo_recibos=ControlRecibos::model()->findAllBySQL($criteria);
 		}else{
 			//$criteria = new CDbCriteria;
